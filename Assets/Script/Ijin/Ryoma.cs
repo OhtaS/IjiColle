@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Common;
 
 namespace Ejin
 {
@@ -15,8 +16,9 @@ namespace Ejin
 		// Update is called once per frame
 		void Update ()
 		{	
-			if (Input.GetKey (KeyCode.R)) {
+			if (Input.GetKeyDown (KeyCode.R)) {
 				transform.position = default_position;
+				GameObject.Find ("SoundManager").GetComponent<SoundManager> ().PlayRespone ();
 			}
 		}
 	}
