@@ -4,7 +4,10 @@ using System.Collections;
 
 namespace Crane
 {
-	enum State {Ready, MoveX, Opening, Opened, Closing, Closed, WaitingJudgement, Return};
+	public enum State {Ready, MoveX, Opening, Opened, Closing, Closed, WaitingJudgement, Return};
+	public enum AnswerState {Unanswered, Correct, Incorrect};
+	public enum ButtonState {Neutral, Left, Right, Up};	
+
 	public class Crane : MonoBehaviour
 	{
 		Transform arm_l;
@@ -14,11 +17,17 @@ namespace Crane
 		Vector3 close_angle_l;
 		Vector3 close_angle_r;
 		Vector3 default_position;
-		State state;
+		public static State state;
+		public static AnswerState answerState;
+		public static ButtonState buttonState;
+		public static bool isCatched;
 
 		void Start ()
 		{
 			state = State.Ready;
+			answerState = AnswerState.Unanswered;
+			buttonState = ButtonState.Neutral;
+			isCatched = false;
 			default_position = transform.position;
 			arm_l = transform.GetChild (0);
 			open_angle_l = new Vector3(arm_l.eulerAngles.x, arm_l.eulerAngles.y, arm_l.eulerAngles.z+40);
@@ -108,18 +117,15 @@ namespace Crane
 
 		void PlayMultipleChoice ()
 		{
-			if(Input.GetKeyUp (KeyCode.RightArrow)){
+			if(buttonState == ButtonState.Up){
 				state = State.Opening;
-			}else if (Input.GetKey (KeyCode.RightArrow) && state == State.Ready) {
+				buttonState = ButtonState.Neutral;
+			}else if (buttonState == ButtonState.Left && state == State.Ready) {
+				transform.position = new Vector3 (transform.position.x-0.01f, transform.position.y, transform.position.z);
+			}else if (buttonState == ButtonState.Right && state == State.Ready) {
 				transform.position = new Vector3 (transform.position.x+0.01f, transform.position.y, transform.position.z);
 			}
 			
-			if(Input.GetKeyUp (KeyCode.LeftArrow)){
-				state = State.Opening;
-			}else if (Input.GetKey (KeyCode.LeftArrow) && state == State.Ready) {
-				transform.position = new Vector3 (transform.position.x-0.01f, transform.position.y, transform.position.z);
-			}
-
 			if (Input.GetKey (KeyCode.Space) && state == State.MoveX) {
 				state = State.Opening;
 			}
@@ -133,7 +139,7 @@ namespace Crane
 				}
 				break;
 
-			case State.Opening:
+				case State.Opening:
 				OpenArms (State.Opened);
 				break;
 
@@ -156,15 +162,25 @@ namespace Crane
 
 				case State.Closed:
 				if (transform.position.y >= default_position.y) {
-					state = State.Return;
+					if(isCatched == true){
+						state = State.WaitingJudgement;
+					}else{
+						state = State.Return;
+					}				
 				} else {
 					transform.position = new Vector3 (transform.position.x, transform.position.y + 0.01f, transform.position.z);
 				}
 				break;
 
+				case State.WaitingJudgement:
+				
+				break;
+
 				case State.Return:
-				if (transform.position.x > default_position.x) {
+				if (transform.position.x - default_position.x > 0.01) {
 					transform.position = new Vector3 (transform.position.x - 0.01f, transform.position.y, transform.position.z);
+				}else if (transform.position.x - default_position.x < -0.01) {
+					transform.position = new Vector3 (transform.position.x + 0.01f, transform.position.y, transform.position.z);
 				}else{
 					OpenArms (State.Ready);
 				}
