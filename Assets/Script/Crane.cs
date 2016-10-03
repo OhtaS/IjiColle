@@ -133,13 +133,8 @@ namespace Crane
 				}
 				break;
 
-				case State.Opening:
-				if (Mathf.DeltaAngle (arm_l.eulerAngles.z, open_angle_l.z) < 0.1f && Mathf.DeltaAngle (arm_r.eulerAngles.z, open_angle_r.z) < 0.1f) {
-					state = State.Opened;
-				} else {
-					arm_l.Rotate (0f, 0f, 1f);
-					arm_r.Rotate (0f, 0f, 1f);
-				}
+			case State.Opening:
+				OpenArms (State.Opened);
 				break;
 
 				case State.Opened:
@@ -167,19 +162,22 @@ namespace Crane
 				}
 				break;
 
-
-
 				case State.Return:
 				if (transform.position.x > default_position.x) {
 					transform.position = new Vector3 (transform.position.x - 0.01f, transform.position.y, transform.position.z);
 				}else{
-					arm_l.Rotate (0f, 0f, 1f);
-					arm_r.Rotate (0f, 0f, 1f);
-					if (Mathf.DeltaAngle (arm_l.eulerAngles.z, open_angle_l.z) < 0.1f && Mathf.DeltaAngle (arm_r.eulerAngles.z, open_angle_r.z) < 0.1f) {
-						state = State.Ready;
-					}
+					OpenArms (State.Ready);
 				}
 				break;
+			}
+		}
+
+		void OpenArms(State next_state){
+			if (Mathf.DeltaAngle (arm_l.eulerAngles.z, open_angle_l.z) < 0.1f && Mathf.DeltaAngle (arm_r.eulerAngles.z, open_angle_r.z) < 0.1f) {
+				state = next_state;
+			} else {
+				arm_l.Rotate (0f, 0f, 1f);
+				arm_r.Rotate (0f, 0f, 1f);
 			}
 		}
 	}
