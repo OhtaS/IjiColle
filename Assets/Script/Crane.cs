@@ -39,6 +39,8 @@ namespace Crane
 
 		void Update ()
 		{
+			Debug.Log(buttonState);
+
 			if (SceneManager.GetActiveScene().name == "MultipleChoice"){
 				PlayMultipleChoice();
 			}

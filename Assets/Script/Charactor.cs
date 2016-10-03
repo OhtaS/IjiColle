@@ -8,7 +8,8 @@ public class Charactor : MonoBehaviour {
 	}
 	
 	void OnTriggerStay2D(Collider2D collider) {
-		if(Crane.Crane.isCatched == false && collider.tag == "Crane" && Crane.Crane.state == State.Closed){
+			Debug.Log(collider.tag);
+		if(Crane.Crane.isCatched == false && collider.tag == "Arm" && Crane.Crane.state == State.Closed){
 			Crane.Crane.isCatched = true;
 			Debug.Log("Catch!!");
 		}
