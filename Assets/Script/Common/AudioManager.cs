@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Common
 {
-	public class SoundManager : MonoBehaviour
+	public class AudioManager : MonoBehaviour
 	{
 		AudioSource sound01;
 		// Use this for initialization
