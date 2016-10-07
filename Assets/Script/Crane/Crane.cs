@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using Navigator;
 
 namespace Crane{
 	public enum AnswerState{
@@ -16,6 +17,7 @@ namespace Crane{
 		Fall,
 		Close,
 		Rise,
+		WaitingAnswer,
 		WaitingJudgement,
 		Return}
 	;
@@ -28,6 +30,8 @@ namespace Crane{
 		Vector3 close_angle_l;
 		Vector3 close_angle_r;
 		Vector3 default_position;
+		Vector3 correctBox_position;
+		Vector3 incorrectBox_position;
 		public static State state;
 		public static AnswerState answerState;
 		public bool isCatched;
@@ -43,6 +47,8 @@ namespace Crane{
 			open_angle_r = new Vector3(arm_r.eulerAngles.x, arm_r.eulerAngles.y, arm_r.eulerAngles.z + 40);
 			close_angle_l = arm_l.eulerAngles;
 			close_angle_r = arm_r.eulerAngles;
+			correctBox_position = GameObject.Find("CorrectBox").transform.localPosition;
+			incorrectBox_position = GameObject.Find("IncorrectBox").transform.localPosition;
 		}
 
 		void Update(){
@@ -52,6 +58,11 @@ namespace Crane{
 		void PlayMultipleChoice(){
 			if (Input.GetKey(KeyCode.Space) && state == State.MoveX){
 				state = State.Open;
+			}
+			if (Input.GetKeyUp(KeyCode.LeftArrow)){
+				answerState = AnswerState.Correct;
+			} else if (Input.GetKeyUp(KeyCode.RightArrow)){
+				answerState = AnswerState.Incorrect;
 			}
 
 			switch(state){
@@ -75,8 +86,21 @@ namespace Crane{
 					Rise();
 				break;
 
-				case State.WaitingJudgement:
+				case State.WaitingAnswer:
+					GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Question();
+					if (answerState == AnswerState.Correct){
+						MoveCorrect();
+					} else if (answerState == AnswerState.Incorrect){
+						MoveIncorrect();
+					}
+				break;
 
+				case State.WaitingJudgement:
+					if (SceneManager.GetSceneByName("Question").isLoaded == true){
+						GameObject.Find("Button_left").GetComponent<BoxCollider2D>().enabled = true;
+						GameObject.Find("Button_right").GetComponent<BoxCollider2D>().enabled = true;
+						UnityEngine.SceneManagement.SceneManager.UnloadScene("Question");
+					}
 				break;
 
 				case State.Return:
@@ -106,7 +130,7 @@ namespace Crane{
 		void Rise(){
 			if (transform.position.y >= default_position.y){
 				if (isCatched == true){
-					state = State.WaitingJudgement;
+					state = State.WaitingAnswer;
 				} else{
 					state = State.Return;
 				}				
@@ -159,12 +183,20 @@ namespace Crane{
 			state = State.Open;
 		}
 
-		void MoveWrongAnswer(){
-
+		void MoveCorrect(){
+			if (transform.localPosition.x > correctBox_position.x){
+				transform.position = new Vector3(transform.position.x - 0.01f, transform.position.y, transform.position.z);
+			} else{
+				OpenArms(State.WaitingJudgement);
+			}
 		}
 
-		void MoveCorrectAnswer(){
-
+		void MoveIncorrect(){
+			if (transform.localPosition.x < incorrectBox_position.x){
+				transform.position = new Vector3(transform.position.x + 0.01f, transform.position.y, transform.position.z);
+			} else{
+				OpenArms(State.WaitingJudgement);
+			}
 		}
 	}
 }

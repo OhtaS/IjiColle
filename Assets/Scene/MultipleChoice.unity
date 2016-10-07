@@ -208,7 +208,7 @@ Transform:
   - {fileID: 1555933450}
   - {fileID: 1998950847}
   m_Father: {fileID: 1637592626}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &191587370
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +331,47 @@ Transform:
   - {fileID: 714232429}
   - {fileID: 520188465}
   m_Father: {fileID: 1637592626}
+  m_RootOrder: 2
+--- !u!1 &315600167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 315600168}
+  - 114: {fileID: 315600169}
+  m_Layer: 0
+  m_Name: Ochimusha
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &315600168
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 315600167}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 1637592626}
   m_RootOrder: 1
+--- !u!114 &315600169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 315600167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3844866c6bc94d1886f8da71051793b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &365208909
 GameObject:
   m_ObjectHideFlags: 0
@@ -1204,6 +1244,7 @@ GameObject:
   - 61: {fileID: 1555933452}
   - 50: {fileID: 1555933451}
   - 58: {fileID: 1555933455}
+  - 114: {fileID: 1555933454}
   m_Layer: 0
   m_Name: Mobu
   m_TagString: Untagged
@@ -1302,6 +1343,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.22}
   serializedVersion: 2
   m_Radius: 0.4
+--- !u!114 &1555933454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1555933448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 533e5c11286d943c4b6c3d4fd8b84ab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
 --- !u!58 &1555933455
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1343,6 +1396,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1229891223}
+  - {fileID: 315600168}
   - {fileID: 297307716}
   - {fileID: 54086820}
   m_Father: {fileID: 0}
@@ -1564,6 +1618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d713d52edadf4915b1b8280a357976a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: 
 --- !u!58 &1998950849
 CircleCollider2D:
   m_ObjectHideFlags: 0
