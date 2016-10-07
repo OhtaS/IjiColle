@@ -17,6 +17,9 @@ namespace Crane
 		Vector3 close_angle_l;
 		Vector3 close_angle_r;
 		Vector3 default_position;
+		Vector3 correctBox_position;
+		Vector3 incorrectBox_position;
+
 		public static State state;
 		public static AnswerState answerState;
 		public static ButtonState buttonState;
@@ -29,6 +32,8 @@ namespace Crane
 			buttonState = ButtonState.Neutral;
 			isCatched = false;
 			default_position = transform.position;
+			correctBox_position = GameObject.Find("CorrectBox").transform.localPosition;
+			incorrectBox_position = GameObject.Find("IncorrectBox").transform.localPosition;
 			arm_l = transform.GetChild (0);
 			open_angle_l = new Vector3(arm_l.eulerAngles.x, arm_l.eulerAngles.y, arm_l.eulerAngles.z+40);
 			arm_r = transform.GetChild (1);
@@ -39,8 +44,7 @@ namespace Crane
 
 		void Update ()
 		{
-			Debug.Log(buttonState);
-
+			Debug.Log(state);
 			if (SceneManager.GetActiveScene().name == "MultipleChoice"){
 				PlayMultipleChoice();
 			}
@@ -132,6 +136,14 @@ namespace Crane
 				state = State.Opening;
 			}
 
+			if(Input.GetKeyUp (KeyCode.LeftArrow)){
+				answerState = AnswerState.Correct;
+			}
+
+			if(Input.GetKeyUp (KeyCode.RightArrow)){
+				answerState = AnswerState.Incorrect;
+			}
+
 			switch (state) {
 				case State.Ready:
 				if (Mathf.Abs (Mathf.DeltaAngle (arm_l.eulerAngles.z, close_angle_l.z)) < 0.1f && Mathf.Abs (Mathf.DeltaAngle (arm_r.eulerAngles.z, close_angle_r.z)) < 0.1f) {
@@ -175,17 +187,54 @@ namespace Crane
 				break;
 
 				case State.WaitingJudgement:
-				
+				if(answerState == AnswerState.Unanswered){
+					if (SceneManager.GetSceneByName ("Question").isLoaded == false) {
+						GameObject.Find("Button_left").GetComponent<BoxCollider2D>().enabled = false;
+						GameObject.Find("Button_right").GetComponent<BoxCollider2D>().enabled = false;
+						UnityEngine.SceneManagement.SceneManager.LoadScene ("Question", LoadSceneMode.Additive);
+					}
+				}else if(answerState == AnswerState.Correct){
+					if (SceneManager.GetSceneByName ("Question").isLoaded == true) {
+						GameObject.Find("Button_left").GetComponent<BoxCollider2D>().enabled = true;
+						GameObject.Find("Button_right").GetComponent<BoxCollider2D>().enabled = true;
+						UnityEngine.SceneManagement.SceneManager.UnloadScene ("Question");
+					}
+					if (transform.localPosition.x > correctBox_position.x) {
+						transform.position = new Vector3 (transform.position.x - 0.01f, transform.position.y, transform.position.z);
+					}else{
+						OpenArms (State.Return);
+					}
+				}else if(answerState == AnswerState.Incorrect){
+					if (SceneManager.GetSceneByName ("Question").isLoaded == true) {
+						GameObject.Find("Button_left").GetComponent<BoxCollider2D>().enabled = true;
+						GameObject.Find("Button_right").GetComponent<BoxCollider2D>().enabled = true;
+						UnityEngine.SceneManagement.SceneManager.UnloadScene ("Question");
+					}
+					if (transform.localPosition.x < incorrectBox_position.x) {
+						transform.position = new Vector3 (transform.position.x + 0.01f, transform.position.y, transform.position.z);
+					}else{
+						OpenArms (State.Return);
+					}
+				}
+
 				break;
 
 				case State.Return:
-				if (transform.position.x - default_position.x > 0.01) {
-					transform.position = new Vector3 (transform.position.x - 0.01f, transform.position.y, transform.position.z);
-				}else if (transform.position.x - default_position.x < -0.01) {
-					transform.position = new Vector3 (transform.position.x + 0.01f, transform.position.y, transform.position.z);
-				}else{
-					OpenArms (State.Ready);
+				if (Mathf.Abs (Mathf.DeltaAngle (arm_l.eulerAngles.z, close_angle_l.z)) < 0.1f && Mathf.Abs (Mathf.DeltaAngle (arm_r.eulerAngles.z, close_angle_r.z)) < 0.1f) {
+					if (transform.position.x - default_position.x > 0.01) {
+						transform.position = new Vector3 (transform.position.x - 0.01f, transform.position.y, transform.position.z);
+					}else if (transform.position.x - default_position.x < -0.01) {
+						transform.position = new Vector3 (transform.position.x + 0.01f, transform.position.y, transform.position.z);
+					}else{
+						answerState = AnswerState.Unanswered;
+						isCatched = false;
+						state = State.Ready;
+					}				
+				} else {
+					arm_l.Rotate (0f, 0f, -1f);
+					arm_r.Rotate (0f, 0f, -1f);
 				}
+
 				break;
 			}
 		}
@@ -196,6 +245,15 @@ namespace Crane
 			} else {
 				arm_l.Rotate (0f, 0f, 1f);
 				arm_r.Rotate (0f, 0f, 1f);
+			}
+		}
+
+		void CloseArms(State next_state){
+			if (Mathf.Abs (Mathf.DeltaAngle (arm_l.eulerAngles.z, close_angle_l.z)) < 0.1f && Mathf.Abs (Mathf.DeltaAngle (arm_r.eulerAngles.z, close_angle_r.z)) < 0.1f) {
+				state = next_state;
+			} else {
+				arm_l.Rotate (0f, 0f, -1f);
+				arm_r.Rotate (0f, 0f, -1f);
 			}
 		}
 	}
