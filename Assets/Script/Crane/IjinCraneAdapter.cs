@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Ijin;
+using Navigator;
 
 namespace Crane{
 	public class IjinCraneAdapter : MonoBehaviour, IIjinListener{
@@ -11,6 +12,7 @@ namespace Crane{
 				gameObject.GetComponent<Crane>().isCatched = true;
 				Debug.Log(ijin.name);
 			}
+			GameObject.Find("Ochimusha").GetComponent<Ochimusha>().catchedIjin = ijin;
 		}
 	}
 }

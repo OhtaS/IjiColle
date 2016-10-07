@@ -10,6 +10,8 @@ namespace Ijin{
 		protected override void Initialize(){
 			base.Initialize();
 			name = "Mobu";
+			question_name = "question_mobu01";
+			question_answer = Answer.Correct;
 		}
 
 		void Update(){	

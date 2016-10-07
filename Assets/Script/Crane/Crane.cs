@@ -2,14 +2,9 @@
 using UnityEngine.SceneManagement;
 using System.Collections;
 using Navigator;
+using Ijin;
 
 namespace Crane{
-	public enum AnswerState{
-		Unanswered,
-		Correct,
-		Incorrect}
-	;
-
 	public enum State{
 		Ready,
 		MoveX,
@@ -33,12 +28,12 @@ namespace Crane{
 		Vector3 correctBox_position;
 		Vector3 incorrectBox_position;
 		public static State state;
-		public static AnswerState answerState;
+		public Answer player_answer;
 		public bool isCatched;
 
 		void Start(){
 			state = State.Ready;
-			answerState = AnswerState.Unanswered;
+			player_answer = Answer.Unanswered;
 			isCatched = false;
 			default_position = transform.position;
 			arm_l = transform.GetChild(0);
@@ -60,9 +55,9 @@ namespace Crane{
 				state = State.Open;
 			}
 			if (Input.GetKeyUp(KeyCode.LeftArrow)){
-				answerState = AnswerState.Correct;
+				player_answer = Answer.Correct;
 			} else if (Input.GetKeyUp(KeyCode.RightArrow)){
-				answerState = AnswerState.Incorrect;
+				player_answer = Answer.Incorrect;
 			}
 
 			switch(state){
@@ -88,19 +83,24 @@ namespace Crane{
 
 				case State.WaitingAnswer:
 					GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Question();
-					if (answerState == AnswerState.Correct){
+					if (player_answer == Answer.Correct){
 						MoveCorrect();
-					} else if (answerState == AnswerState.Incorrect){
+					} else if (player_answer == Answer.Incorrect){
 						MoveIncorrect();
 					}
 				break;
 
 				case State.WaitingJudgement:
+					if (GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Judge(player_answer) == false){
+						GameObject.Find("Ochimusha").GetComponent<Ochimusha>().ResponeIjin();
+					} else{
+					}
 					if (SceneManager.GetSceneByName("Question").isLoaded == true){
 						GameObject.Find("Button_left").GetComponent<BoxCollider2D>().enabled = true;
 						GameObject.Find("Button_right").GetComponent<BoxCollider2D>().enabled = true;
 						UnityEngine.SceneManagement.SceneManager.UnloadScene("Question");
 					}
+					state = State.Return;
 				break;
 
 				case State.Return:
