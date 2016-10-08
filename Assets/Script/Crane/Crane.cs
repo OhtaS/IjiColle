@@ -135,26 +135,36 @@ namespace Crane{
 			}
 		}
 
+		int count = 0;
+
 		public void WaitAnswer(Answer player_answer){
-			GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Question();
+			if (count == 0){
+				GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Question();
+			} else{
+				if (SceneManager.GetSceneByName("Question").isLoaded == true){
+					GameObject.Find("Button_left").GetComponent<BoxCollider2D>().enabled = true;
+					GameObject.Find("Button_right").GetComponent<BoxCollider2D>().enabled = true;
+					UnityEngine.SceneManagement.SceneManager.UnloadScene("Question");
+				}
+			}
 			if (player_answer == Answer.Correct){
 				MoveCorrect();
+				count++;
 			} else if (player_answer == Answer.Incorrect){
 				MoveIncorrect();
+				count++;
 			}
 		}
 
 		public void WaitJudgement(Answer player_answer){
+			count = 0;
+
 			if (GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Judge(player_answer) == false){
 				GameObject.Find("Ochimusha").GetComponent<Ochimusha>().ResponeIjin();
 			} else{
 				GameObject.Find("/AudioManager").GetComponent<AudioManager>().PlayRespone();
 			}
-			if (SceneManager.GetSceneByName("Question").isLoaded == true){
-				GameObject.Find("Button_left").GetComponent<BoxCollider2D>().enabled = true;
-				GameObject.Find("Button_right").GetComponent<BoxCollider2D>().enabled = true;
-				UnityEngine.SceneManagement.SceneManager.UnloadScene("Question");
-			}
+
 			state = State.Return;
 		}
 	}

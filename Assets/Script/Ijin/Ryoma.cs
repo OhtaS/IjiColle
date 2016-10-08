@@ -10,13 +10,15 @@ namespace Ijin{
 		protected override void Initialize(){
 			base.Initialize();
 			name = "Sakamoto Ryoma";
-			question_name = "question_mobu01";
-			question_answer = Answer.Correct;
+			question_name = "question_ryoma01";
+			question_answer = Answer.Incorrect;
 		}
 
-		void Update(){	
+		void Update(){
 			if (Input.GetKeyDown(KeyCode.R)){
-				Respone();
+				if (count >= 2){
+					Respone();
+				}
 			}
 		}
 	}

@@ -14,8 +14,9 @@ namespace Ijin{
 		public string name;
 		public string question_name;
 		public Answer question_answer;
+		protected static int count;
 
-		protected Vector3 default_position;
+		public Vector3 default_position;
 		protected SpriteRenderer spriteRenderer;
 
 		protected virtual void Initialize(){
@@ -25,7 +26,8 @@ namespace Ijin{
 			question_answer = Answer.Unanswered;
 		}
 
-		public void Respone(){
+		public virtual void Respone(){
+			count++;
 			transform.position = default_position;
 //			GameObject.Find("/AudioManager").GetComponent<AudioManager>().PlayRespone();
 		}
