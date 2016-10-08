@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using Navigator;
 using Ijin;
+using Common;
 
 namespace Crane{
 	public enum State{
@@ -45,7 +46,7 @@ namespace Crane{
 		}
 
 		public void Fall(){
-			if (transform.position.y >= default_position.y - 0.5f){
+			if (transform.position.y >= default_position.y - 0.7f){
 				transform.position = new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z);
 			} else{
 				state = State.Close;
@@ -147,6 +148,7 @@ namespace Crane{
 			if (GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Judge(player_answer) == false){
 				GameObject.Find("Ochimusha").GetComponent<Ochimusha>().ResponeIjin();
 			} else{
+				GameObject.Find("/AudioManager").GetComponent<AudioManager>().PlayRespone();
 			}
 			if (SceneManager.GetSceneByName("Question").isLoaded == true){
 				GameObject.Find("Button_left").GetComponent<BoxCollider2D>().enabled = true;

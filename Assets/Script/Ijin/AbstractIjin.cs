@@ -27,17 +27,17 @@ namespace Ijin{
 
 		public void Respone(){
 			transform.position = default_position;
-//			GameObject.Find("AudioManager").GetComponent<AudioManager>().PlayRespone();
+//			GameObject.Find("/AudioManager").GetComponent<AudioManager>().PlayRespone();
 		}
 
-		void OnTriggerStay2D(Collider2D collider){
-			if (collider.name == "Arm_L" || collider.name == "Arm_R"){
+		void OnCollisionStay2D(Collision2D coll){
+			if (coll.gameObject.name == "Arm_L" || coll.gameObject.name == "Arm_R"){
 				GameObject.Find("Crane").GetComponent<IIjinListener>().CheckTo(this);
 			}
 		}
 
-		void OnTriggerExit2D(Collider2D collider){
-			if (collider.name == "Arm_L" || collider.name == "Arm_R"){
+		void OnCollisionExit2D(Collision2D coll){
+			if (coll.gameObject.name == "Arm_L" || coll.gameObject.name == "Arm_R"){
 				GameObject.Find("Crane").GetComponent<IIjinListener>().CheckTo(null);
 			}
 		}
