@@ -25,8 +25,11 @@ namespace Crane{
 
 			switch(crane.state){
 				case State.Ready:
-					player_answer = Answer.Unanswered;
 					crane.CloseArms(crane.state);
+					if (player_answer != Answer.Unanswered){
+						crane.Ready();
+					}
+					player_answer = Answer.Unanswered;
 				break;
 
 				case State.Open:

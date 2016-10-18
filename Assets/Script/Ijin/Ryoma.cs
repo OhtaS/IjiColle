@@ -16,9 +16,7 @@ namespace Ijin{
 
 		void Update(){
 			if (Input.GetKeyDown(KeyCode.R)){
-				if (count >= 2){
-					Respone();
-				}
+				Respone();
 			}
 		}
 	}
