@@ -46,7 +46,7 @@ namespace Crane{
 		}
 
 		public void Fall(){
-			if (transform.position.y >= default_position.y - 0.72f){
+			if (transform.position.y >= default_position.y - 0.94f){
 				transform.position = new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z);
 			} else{
 				state = State.Close;
