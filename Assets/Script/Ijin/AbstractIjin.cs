@@ -31,7 +31,7 @@ namespace Ijin{
 //			GameObject.Find("/AudioManager").GetComponent<AudioManager>().PlayRespone();
 		}
 
-		void OnCollisionStay2D(Collision2D coll){
+		void OnCollisionEnter2D(Collision2D coll){
 			if (coll.gameObject.name == "Arm_L" || coll.gameObject.name == "Arm_R"){
 				GameObject.Find("Crane").GetComponent<IIjinListener>().CheckTo(this);
 			}
