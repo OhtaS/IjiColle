@@ -30,6 +30,7 @@ namespace Crane{
 		Vector3 incorrectBox_position;
 		public State state;
 		public bool isCatched;
+		Collider2D reachedObj;
 
 		void Start(){
 			state = State.Ready;
@@ -46,7 +47,7 @@ namespace Crane{
 		}
 
 		public void Fall(){
-			if (transform.position.y >= default_position.y - 0.94f){
+			if (reachedObj == null){
 				transform.position = new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z);
 			} else{
 				state = State.Close;
@@ -65,6 +66,7 @@ namespace Crane{
 
 		public void Rise(){
 			if (transform.position.y >= default_position.y){
+				obstacleDestroy();
 				if (isCatched == true){
 					state = State.WaitingAnswer;
 				} else{
@@ -81,6 +83,7 @@ namespace Crane{
 			} else if (transform.position.x - default_position.x < -0.01){
 				transform.position = new Vector3(transform.position.x + 0.01f, transform.position.y, transform.position.z);
 			} else{
+				obstacleDestroy();
 				OpenArms(State.Ready);
 			}
 		}
@@ -88,6 +91,7 @@ namespace Crane{
 		public void OpenArms(State next_state){
 			if (Mathf.DeltaAngle(arm_l.eulerAngles.z, open_angle_l.z) < 0.1f && Mathf.DeltaAngle(arm_r.eulerAngles.z,
 			                                                                                     open_angle_r.z) < 0.1f){
+				reachedObj = null;
 				state = next_state;
 			} else{
 				arm_l.Rotate(0f, 0f, -1f);
@@ -160,6 +164,7 @@ namespace Crane{
 			count = 0;
 
 			if (GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Judge(player_answer) == false){
+				Ready();
 			} else{
 				GameObject.Find("/AudioManager").GetComponent<AudioManager>().PlayRespone();
 			}
@@ -169,6 +174,20 @@ namespace Crane{
 
 		public void Ready(){
 			GameObject.Find("Ochimusha").GetComponent<Ochimusha>().ResponeIjin();
+		}
+
+		public void obstacleDestroy() {
+			GameObject[] obstacles = GameObject.FindGameObjectsWithTag("CatchedItem");
+			foreach(GameObject obs in obstacles) {
+				Destroy(obs);
+			}
+		}
+
+		void OnTriggerEnter2D(Collider2D other){
+			// if (coll.gameObject.tag == "Ijin" || coll.gameObject.tag == "Item"){
+			// }
+			Debug.Log(other.gameObject.tag);
+			reachedObj = other;
 		}
 	}
 }

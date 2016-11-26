@@ -26,9 +26,9 @@ namespace Crane{
 			switch(crane.state){
 				case State.Ready:
 					crane.CloseArms(crane.state);
-					if (player_answer != Answer.Unanswered){
-						crane.Ready();
-					}
+					// if (player_answer == Answer.Incorrect){
+					// 	crane.Ready();
+					// }
 					player_answer = Answer.Unanswered;
 				break;
 
