@@ -1,24 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Common;
 
-namespace Ejin
-{
-	public class Ryoma : MonoBehaviour
-	{
-		Vector3 default_position;
-		// Use this for initialization
-		void Start ()
-		{
-			default_position = transform.position;
+namespace Ijin{
+	public class Ryoma : AbstractIjin{
+		void Start(){
+			Initialize();
 		}
-	
-		// Update is called once per frame
-		void Update ()
-		{	
-			if (Input.GetKeyDown (KeyCode.R)) {
-				transform.position = default_position;
-				GameObject.Find ("SoundManager").GetComponent<SoundManager> ().PlayRespone ();
+
+		protected override void Initialize(){
+			base.Initialize();
+			name = "Sakamoto Ryoma";
+			question_name = "question_ryoma01";
+			question_answer = Answer.Incorrect;
+		}
+
+		void Update(){
+			if (Input.GetKeyDown(KeyCode.R)){
+				Respone();
 			}
 		}
 	}

@@ -2,14 +2,17 @@
 using System.Collections;
 
 namespace Ijin{
-	public class Dazai : AbstractIjin{
+	public class Mobu : AbstractIjin{
+
 		void Start(){
 			Initialize();
 		}
 
 		protected override void Initialize(){
 			base.Initialize();
-			name = "Dazai Osamu";
+			name = "Mobu";
+			question_name = "question_mobu01";
+			question_answer = Answer.Correct;
 		}
 
 		void Update(){	

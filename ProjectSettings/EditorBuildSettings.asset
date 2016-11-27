@@ -4,4 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scene/Question.unity
+  - enabled: 1
+    path: Assets/Scene/MultipleChoice.unity
+  - enabled: 1
+    path: Assets/Scene/Title.unity
+  - enabled: 1
+    path: Assets/Scene/PictureBook.unity
+  - enabled: 1
+    path: Assets/Scene/SelectStand.unity
