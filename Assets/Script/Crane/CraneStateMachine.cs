@@ -5,10 +5,12 @@ using Ijin;
 namespace Crane{
 	public class CraneStateMachine : MonoBehaviour{
 		Crane crane;
+		ObjectDestroyer objectDestroyer;
 		Answer player_answer;
 		// Use this for initialization
 		void Start(){
 			crane = gameObject.GetComponent<Crane>();
+			objectDestroyer = gameObject.GetComponent<ObjectDestroyer>();
 			player_answer = Answer.Unanswered;
 		}
 	
@@ -25,10 +27,8 @@ namespace Crane{
 
 			switch(crane.state){
 				case State.Ready:
+					objectDestroyer.ObstacleDestroy();
 					crane.CloseArms(crane.state);
-					// if (player_answer == Answer.Incorrect){
-					// 	crane.Ready();
-					// }
 					player_answer = Answer.Unanswered;
 				break;
 
@@ -49,6 +49,7 @@ namespace Crane{
 				break;
 
 				case State.WaitingAnswer:
+					objectDestroyer.ObstacleDestroy();
 					crane.WaitAnswer(player_answer);
 				break;
 
@@ -57,6 +58,7 @@ namespace Crane{
 				break;
 
 				case State.Return:
+					objectDestroyer.ObstacleDestroy();
 					crane.ReturnToBase();
 				break;
 			}
