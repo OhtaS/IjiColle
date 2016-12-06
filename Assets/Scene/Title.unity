@@ -99,7 +99,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 70131392}
   m_Layer: 0
-  m_Name: button
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,7 +162,7 @@ GameObject:
   - 4: {fileID: 1296985139}
   - 212: {fileID: 1296985140}
   m_Layer: 0
-  m_Name: logo
+  m_Name: Logo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -224,7 +224,7 @@ GameObject:
   - 4: {fileID: 1390453551}
   - 212: {fileID: 1390453552}
   m_Layer: 0
-  m_Name: background
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -288,7 +288,7 @@ GameObject:
   - 114: {fileID: 1400913461}
   - 61: {fileID: 1400913460}
   m_Layer: 0
-  m_Name: button_game
+  m_Name: SelectStandButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -376,7 +376,7 @@ GameObject:
   - 212: {fileID: 1463010134}
   - 61: {fileID: 1463010133}
   m_Layer: 0
-  m_Name: button_unknown
+  m_Name: UnknownButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -541,7 +541,7 @@ GameObject:
   - 114: {fileID: 1979805286}
   - 61: {fileID: 1979805285}
   m_Layer: 0
-  m_Name: button_book
+  m_Name: PictureBookButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

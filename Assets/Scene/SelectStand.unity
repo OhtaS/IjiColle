@@ -102,7 +102,7 @@ GameObject:
   - 61: {fileID: 347959002}
   - 114: {fileID: 347959001}
   m_Layer: 0
-  m_Name: azutimomoyama
+  m_Name: SelectAzutimomoyamaButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,12 +115,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 347958999}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 481416604}
-  m_RootOrder: 3
+  m_Father: {fileID: 1401746298}
+  m_RootOrder: 1
 --- !u!114 &347959001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ GameObject:
   - 4: {fileID: 421149165}
   - 212: {fileID: 421149166}
   m_Layer: 0
-  m_Name: title
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -269,8 +269,7 @@ Transform:
   m_Children:
   - {fileID: 421149165}
   - {fileID: 1955018719}
-  - {fileID: 761153635}
-  - {fileID: 347959000}
+  - {fileID: 1401746298}
   m_Father: {fileID: 0}
   m_RootOrder: 1
 --- !u!1 &761153634
@@ -285,7 +284,7 @@ GameObject:
   - 61: {fileID: 761153637}
   - 114: {fileID: 761153636}
   m_Layer: 0
-  m_Name: edo
+  m_Name: SelectEdoButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -298,12 +297,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 761153634}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 1}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 481416604}
-  m_RootOrder: 2
+  m_Father: {fileID: 1401746298}
+  m_RootOrder: 0
 --- !u!114 &761153636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,6 +448,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!1 &1401746297
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1401746298}
+  m_Layer: 0
+  m_Name: Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1401746298
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1401746297}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children:
+  - {fileID: 761153635}
+  - {fileID: 347959000}
+  m_Father: {fileID: 481416604}
+  m_RootOrder: 2
 --- !u!1 &1955018718
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +488,7 @@ GameObject:
   - 4: {fileID: 1955018719}
   - 212: {fileID: 1955018720}
   m_Layer: 0
-  m_Name: background
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
