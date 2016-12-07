@@ -102,7 +102,7 @@ GameObject:
   - 61: {fileID: 33810972}
   - 114: {fileID: 33810973}
   m_Layer: 0
-  m_Name: Button_left
+  m_Name: LeftButton
   m_TagString: Arm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -638,7 +638,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 297307716}
   m_Layer: 0
-  m_Name: CraneGameMacine
+  m_Name: CraneGameMachine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -919,7 +919,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 470279952}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -927,8 +927,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: 430}
-  m_SizeDelta: {x: 400, y: 200}
+  m_AnchoredPosition: {x: 0, y: 430}
+  m_SizeDelta: {x: 350, y: 277}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &470279954
 MonoBehaviour:
@@ -1327,6 +1327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a5330f095df4752a99d12b0cfa5612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player_answer: 0
 --- !u!61 &520188469
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1759,7 +1760,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 714232429}
   m_Layer: 0
-  m_Name: Button
+  m_Name: Buttons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2583,7 +2584,7 @@ GameObject:
   - 61: {fileID: 1053137245}
   - 114: {fileID: 1053137246}
   m_Layer: 0
-  m_Name: Button_right
+  m_Name: RightButton
   m_TagString: Arm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3118,9 +3119,9 @@ Canvas:
   m_GameObject: {fileID: 1151630397}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 191587374}
+  m_PlaneDistance: 9
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -4442,7 +4443,7 @@ GameObject:
   - 212: {fileID: 1630110823}
   - 61: {fileID: 1630110824}
   m_Layer: 0
-  m_Name: button_U
+  m_Name: buttonU
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

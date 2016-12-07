@@ -6,7 +6,7 @@ namespace Crane{
 	public class CraneStateMachine : MonoBehaviour{
 		Crane crane;
 		ObjectDestroyer objectDestroyer;
-		Answer player_answer;
+		public Answer player_answer;
 		// Use this for initialization
 		void Start(){
 			crane = gameObject.GetComponent<Crane>();
@@ -30,9 +30,27 @@ namespace Crane{
 					objectDestroyer.ObstacleDestroy();
 					crane.CloseArms(crane.state);
 					player_answer = Answer.Unanswered;
+					if (GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled == false
+					    || GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled == false){
+						GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled = true;
+						GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled = true;
+					}
+					if (GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<IncorrectButton>() != null){
+						DestroyObject(GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<IncorrectButton>());
+						GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").AddComponent<RightButton>();
+					}
+					if (GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<CorrectButton>() != null){
+						DestroyObject(GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<CorrectButton>());
+						GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").AddComponent<LeftButton>();
+					}
 				break;
 
 				case State.Open:
+					if (GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled == true
+					    || GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled == true){
+						GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled = false;
+						GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled = false;
+					}
 					crane.OpenArms(State.Fall);
 				break;
 
@@ -51,9 +69,27 @@ namespace Crane{
 				case State.WaitingAnswer:
 					objectDestroyer.ObstacleDestroy();
 					crane.WaitAnswer(player_answer);
+					if (GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled == false
+					    || GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled == false){
+						GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled = true;
+						GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled = true;
+					}
+					if (GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<RightButton>()){
+						DestroyObject(GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<RightButton>());
+						GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").AddComponent<IncorrectButton>();
+					}
+					if (GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<LeftButton>()){
+						DestroyObject(GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<LeftButton>());
+						GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").AddComponent<CorrectButton>();
+					}
 				break;
 
 				case State.WaitingJudgement:
+					if (GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled == true
+					    || GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled == true){
+						GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled = false;
+						GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled = false;
+					}
 					crane.WaitJudgement(player_answer);
 				break;
 

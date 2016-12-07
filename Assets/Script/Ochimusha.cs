@@ -18,8 +18,8 @@ namespace Navigator{
 
 		public void Question(){
 			if (SceneManager.GetSceneByName("Question").isLoaded == false){
-				GameObject.Find("Button_left").GetComponent<BoxCollider2D>().enabled = false;
-				GameObject.Find("Button_right").GetComponent<BoxCollider2D>().enabled = false;
+				GameObject.Find("LeftButton").GetComponent<BoxCollider2D>().enabled = false;
+				GameObject.Find("RightButton").GetComponent<BoxCollider2D>().enabled = false;
 				UnityEngine.SceneManagement.SceneManager.LoadScene("Question", LoadSceneMode.Additive);
 				questionedIjin = catchedIjin;
 			}

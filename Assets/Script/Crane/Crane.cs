@@ -144,8 +144,6 @@ namespace Crane{
 				GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Question();
 			} else{
 				if (SceneManager.GetSceneByName("Question").isLoaded == true){
-					GameObject.Find("Button_left").GetComponent<BoxCollider2D>().enabled = true;
-					GameObject.Find("Button_right").GetComponent<BoxCollider2D>().enabled = true;
 					UnityEngine.SceneManagement.SceneManager.UnloadScene("Question");
 				}
 			}
