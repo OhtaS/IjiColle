@@ -18,12 +18,7 @@ namespace Crane{
 	
 		// Update is called once per frame
 		void Update(){
-			if (player_answer == Ijin.Answer.Unanswered && Input.GetKeyUp(KeyCode.LeftArrow)){
-				player_answer = Ijin.Answer.Correct;
-			} else if (player_answer == Ijin.Answer.Unanswered && Input.GetKeyUp(KeyCode.RightArrow)){
-				player_answer = Ijin.Answer.Incorrect;
-			}
-
+			GameObject.Find("/Canvas/TrialCount").GetComponent<UnityEngine.UI.Text>().text = crane.remainingTrialCount.ToString();
 			switch(crane.state){
 				case State.Ready:
 					objectDestroyer.ObstacleDestroy();
@@ -122,6 +117,10 @@ namespace Crane{
 				case State.Return:
 					objectDestroyer.ObstacleDestroy();
 					StartCoroutine(crane.ReturnToBase()); 
+				break;
+
+				case  State.Finish:
+					Debug.Log("Finish");
 				break;
 			}
 		}

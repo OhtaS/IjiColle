@@ -19,7 +19,8 @@ namespace Crane{
 		MoveCorrect,
 		MoveIncorrect,
 		WaitingJudgement,
-		Return}
+		Return,
+		Finish}
 	;
 
 	public class Crane : MonoBehaviour{
@@ -35,6 +36,7 @@ namespace Crane{
 		bool isMoving;
 		bool isOpening;
 		bool isClosing;
+		public int remainingTrialCount;
 		public State state;
 		public bool isCatched;
 		public Collider2D reachedObj;
@@ -54,6 +56,7 @@ namespace Crane{
 			close_angle_r = arm_r.eulerAngles;
 			correctBox_position = GameObject.Find("CorrectBox").transform.localPosition;
 			incorrectBox_position = GameObject.Find("IncorrectBox").transform.localPosition;
+			remainingTrialCount = 5;
 		}
 
 		public void Fall(){
@@ -130,6 +133,7 @@ namespace Crane{
 
 		public void StopMovement(){
 			state = State.Open;
+			remainingTrialCount--;
 		}
 
 		public IEnumerator MoveCorrect(){
@@ -191,7 +195,11 @@ namespace Crane{
 				}
 				yield return null;
 			}
-			state = State.Ready;
+			if (remainingTrialCount > 0){
+				state = State.Ready;
+			} else{
+				state = State.Finish;
+			}
 			isMoving = false;
 		}
 
