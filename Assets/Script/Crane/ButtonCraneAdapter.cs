@@ -2,37 +2,40 @@
 using System.Collections;
 
 namespace Crane{
-	public enum ButtonState{
-		Neutral,
+	public enum KindOfButton{
+		Empty,
 		Left,
 		Right,
-		Up}
+		Correct,
+		Incorrect}
+
 	;
 
 	public class ButtonCraneAdapter : MonoBehaviour,IButtonListener{
-		Coroutine coroutine;
-
-		public void PushedButton(ButtonState state){
-			switch(state){
-				case ButtonState.Left:
-					coroutine = StartCoroutine(gameObject.GetComponent<Crane>().MoveLeft());
+		public void PushedButton(KindOfButton kind){
+			switch(kind){
+				case KindOfButton.Left:
+					gameObject.GetComponent<Crane>().state = State.MoveLeft;
 				break;
 
-				case ButtonState.Right:
-					coroutine = StartCoroutine(gameObject.GetComponent<Crane>().MoveRight());
+				case KindOfButton.Right:
+					gameObject.GetComponent<Crane>().state = State.MoveRight;
 				break;
 
-				case ButtonState.Up:
-					if (coroutine != null){
-						StopCoroutine(coroutine);
-						gameObject.GetComponent<Crane>().StopMovement();
-					}
+				case KindOfButton.Correct:
+					gameObject.GetComponent<Crane>().state = State.MoveCorrect;
+
+				break;
+
+				case KindOfButton.Incorrect:
+					gameObject.GetComponent<Crane>().state = State.MoveIncorrect;
+
 				break;
 			}
 		}
 
 		public void ReleaseButton(){
-
+			gameObject.GetComponent<Crane>().state = State.Stop;
 		}
 	}
 }

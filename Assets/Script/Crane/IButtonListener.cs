@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Crane;
 
-public interface IButtonListener{
-	void PushedButton(ButtonState state);
+namespace Crane{
+	public interface IButtonListener{
+		void PushedButton(KindOfButton kind);
+
+		void ReleaseButton();
+	}
 }

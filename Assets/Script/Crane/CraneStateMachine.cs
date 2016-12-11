@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using Ijin;
 
@@ -6,30 +7,27 @@ namespace Crane{
 	public class CraneStateMachine : MonoBehaviour{
 		Crane crane;
 		ObjectDestroyer objectDestroyer;
-		public Answer player_answer;
+		public Ijin.Answer player_answer;
 		// Use this for initialization
 		void Start(){
 			crane = gameObject.GetComponent<Crane>();
 			objectDestroyer = gameObject.GetComponent<ObjectDestroyer>();
-			player_answer = Answer.Unanswered;
+			player_answer = Ijin.Answer.Unanswered;
+			StartCoroutine(crane.CloseArms(crane.state));
 		}
 	
 		// Update is called once per frame
 		void Update(){
-			if (Input.GetKey(KeyCode.Space) && crane.state == State.MoveX){
-				crane.state = State.Open;
-			}
-			if (player_answer == Answer.Unanswered && Input.GetKeyUp(KeyCode.LeftArrow)){
-				player_answer = Answer.Correct;
-			} else if (player_answer == Answer.Unanswered && Input.GetKeyUp(KeyCode.RightArrow)){
-				player_answer = Answer.Incorrect;
+			if (player_answer == Ijin.Answer.Unanswered && Input.GetKeyUp(KeyCode.LeftArrow)){
+				player_answer = Ijin.Answer.Correct;
+			} else if (player_answer == Ijin.Answer.Unanswered && Input.GetKeyUp(KeyCode.RightArrow)){
+				player_answer = Ijin.Answer.Incorrect;
 			}
 
 			switch(crane.state){
 				case State.Ready:
 					objectDestroyer.ObstacleDestroy();
-					crane.CloseArms(crane.state);
-					player_answer = Answer.Unanswered;
+					player_answer = Ijin.Answer.Unanswered;
 					if (GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled == false
 					    || GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled == false){
 						GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled = true;
@@ -45,13 +43,25 @@ namespace Crane{
 					}
 				break;
 
+				case State.MoveLeft:
+					crane.MoveLeft();
+				break;
+
+				case State.MoveRight:
+					crane.MoveRight();
+				break;
+
+				case State.Stop:
+					crane.StopMovement();
+				break;
+
 				case State.Open:
 					if (GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled == true
 					    || GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled == true){
 						GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled = false;
 						GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled = false;
 					}
-					crane.OpenArms(State.Fall);
+					StartCoroutine(crane.OpenArms(State.Fall));
 				break;
 
 				case State.Fall:
@@ -59,7 +69,7 @@ namespace Crane{
 				break;
 
 				case State.Close:
-					crane.CloseArms(State.Rise);
+					StartCoroutine(crane.CloseArms(State.Rise));
 				break;
 
 				case State.Rise:
@@ -68,7 +78,7 @@ namespace Crane{
 
 				case State.WaitingAnswer:
 					objectDestroyer.ObstacleDestroy();
-					crane.WaitAnswer(player_answer);
+					crane.WaitAnswer();
 					if (GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled == false
 					    || GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled == false){
 						GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled = true;
@@ -84,6 +94,22 @@ namespace Crane{
 					}
 				break;
 
+				case State.MoveCorrect:
+					if (SceneManager.GetSceneByName("Question").isLoaded == true){
+						UnityEngine.SceneManagement.SceneManager.UnloadScene("Question");
+						player_answer = Ijin.Answer.Correct;
+					}
+					StartCoroutine(crane.MoveCorrect());
+				break;
+
+				case State.MoveIncorrect:
+					if (SceneManager.GetSceneByName("Question").isLoaded == true){
+						UnityEngine.SceneManagement.SceneManager.UnloadScene("Question");
+						player_answer = Ijin.Answer.Incorrect;
+					}
+					StartCoroutine(crane.MoveIncorrect());
+				break;
+
 				case State.WaitingJudgement:
 					if (GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled == true
 					    || GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled == true){
@@ -95,7 +121,7 @@ namespace Crane{
 
 				case State.Return:
 					objectDestroyer.ObstacleDestroy();
-					crane.ReturnToBase();
+					StartCoroutine(crane.ReturnToBase()); 
 				break;
 			}
 		}

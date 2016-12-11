@@ -13,7 +13,7 @@ namespace Crane{
 
 		protected override void ActionByPushed(){
 			base.ActionByPushed();
-			GameObject.Find("Crane").GetComponent<CraneStateMachine>().player_answer = Ijin.Answer.Incorrect;
+			GameObject.Find("Crane").GetComponent<IButtonListener>().PushedButton(KindOfButton.Incorrect);
 		}
 	}
 }
