@@ -102,7 +102,7 @@ GameObject:
   - 61: {fileID: 347959002}
   - 114: {fileID: 347959001}
   m_Layer: 0
-  m_Name: SelectAzutimomoyamaButton
+  m_Name: SelectAdutimomoyamaButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8650553b600864e268555cf94f286135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stand: MultipleChoice2
 --- !u!61 &347959002
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -314,6 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8650553b600864e268555cf94f286135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stand: MultipleChoice2
 --- !u!61 &761153637
 BoxCollider2D:
   m_ObjectHideFlags: 0

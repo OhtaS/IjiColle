@@ -7,7 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scene/Question.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scene/MultipleChoice.unity
   - enabled: 1
     path: Assets/Scene/Title.unity
@@ -17,3 +17,15 @@ EditorBuildSettings:
     path: Assets/Scene/SelectStand.unity
   - enabled: 1
     path: Assets/Scene/MultipleChoice2.unity
+  - enabled: 1
+    path: Assets/Scene/Dialog/Failure.unity
+  - enabled: 1
+    path: Assets/Scene/Dialog/StageFailure.unity
+  - enabled: 1
+    path: Assets/Scene/Dialog/StageSuccess.unity
+  - enabled: 1
+    path: Assets/Scene/Dialog/Success.unity
+  - enabled: 1
+    path: Assets/Scene/Continue.unity
+  - enabled: 1
+    path: Assets/Scene/Edo.unity
