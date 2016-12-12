@@ -8,7 +8,7 @@ namespace SelectStand{
 		protected override void ActionByPushed(){
 			if (gameObject.name == "SelectEdoButton"){
 				stand = "Edo";
-			}else if (gameObject.name == "SelectAzutimomoyamaButton"){
+			}else if (gameObject.name == "SelectAdutimomoyamaButton"){
 				stand = "MultipleChoice2";
 			}else if (gameObject.name == "Button_replay"){
 				stand = "Replay"; 
