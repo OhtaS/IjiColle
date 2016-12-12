@@ -7,12 +7,10 @@ public class Question : MonoBehaviour{
 	// Use this for initialization
 	void Start(){
 		SetQuestion(GameObject.Find("/Object/Ochimusha").GetComponent<Ochimusha>().catchedIjin.question_name);
-
 	}
 	
 	// Update is called once per frame
 	void Update(){
-	
 	}
 
 	public void SetQuestion(string question_name){

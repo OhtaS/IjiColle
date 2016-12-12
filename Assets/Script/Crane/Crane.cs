@@ -56,7 +56,7 @@ namespace Crane{
 			close_angle_r = arm_r.eulerAngles;
 			correctBox_position = GameObject.Find("CorrectBox").transform.localPosition;
 			incorrectBox_position = GameObject.Find("IncorrectBox").transform.localPosition;
-			remainingTrialCount = 5;
+			remainingTrialCount = 3;
 		}
 
 		public void Fall(){
