@@ -11,22 +11,18 @@ public class RightButton : AbstractButton{
 		base.Initialize();
 	}
 
-	protected override void ActionByPushed(){
-		base.ActionByPushed();
-	}
-
 	protected override void OnMouseDown(){
 		base.OnMouseDown();
-		GameObject.Find("Crane").GetComponent<IButtonListener>().PushedButton(ButtonState.Right);
+		GameObject.Find("Crane").GetComponent<IButtonListener>().PushedButton(KindOfButton.Right);
 	}
 
 	protected override void OnMouseUp(){
 		base.OnMouseUp();
-		GameObject.Find("Crane").GetComponent<IButtonListener>().PushedButton(ButtonState.Up);
+		GameObject.Find("Crane").GetComponent<IButtonListener>().ReleaseButton();
 	}
 
 	protected override void OnMouseUpAsButton(){
 		base.OnMouseUpAsButton();
-		GameObject.Find("Crane").GetComponent<IButtonListener>().PushedButton(ButtonState.Up);
+		GameObject.Find("Crane").GetComponent<IButtonListener>().ReleaseButton();
 	}
 }

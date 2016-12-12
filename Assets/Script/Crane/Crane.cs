@@ -8,14 +8,19 @@ using Common;
 namespace Crane{
 	public enum State{
 		Ready,
-		MoveX,
+		MoveLeft,
+		MoveRight,
+		Stop,
 		Open,
 		Fall,
 		Close,
 		Rise,
 		WaitingAnswer,
+		MoveCorrect,
+		MoveIncorrect,
 		WaitingJudgement,
-		Return}
+		Return,
+		Finish}
 	;
 
 	public class Crane : MonoBehaviour{
@@ -28,6 +33,10 @@ namespace Crane{
 		Vector3 default_position;
 		Vector3 correctBox_position;
 		Vector3 incorrectBox_position;
+		bool isMoving;
+		bool isOpening;
+		bool isClosing;
+		public int remainingTrialCount;
 		public State state;
 		public bool isCatched;
 		public Collider2D reachedObj;
@@ -35,6 +44,9 @@ namespace Crane{
 		void Start(){
 			state = State.Ready;
 			isCatched = false;
+			isOpening = false;
+			isClosing = false;
+			isMoving = false;
 			default_position = transform.position;
 			arm_l = transform.GetChild(0);
 			arm_r = transform.GetChild(1);
@@ -44,6 +56,7 @@ namespace Crane{
 			close_angle_r = arm_r.eulerAngles;
 			correctBox_position = GameObject.Find("CorrectBox").transform.localPosition;
 			incorrectBox_position = GameObject.Find("IncorrectBox").transform.localPosition;
+			remainingTrialCount = 3;
 		}
 
 		public void Fall(){
@@ -54,15 +67,32 @@ namespace Crane{
 			}
 		}
 
-		public void CloseArms(State next_state){
-			if (Mathf.Abs(Mathf.DeltaAngle(arm_l.eulerAngles.z, close_angle_l.z)) < 0.1f && Mathf.Abs(Mathf.DeltaAngle(arm_r.eulerAngles.z,
-			                                                                                                           close_angle_r.z)) < 0.1f){
-				state = next_state;
-			} else{
+		public IEnumerator CloseArms(State next_state){
+			if (isClosing){
+				yield break;
+			}
+			isClosing = true;
+
+			while (Mathf.Abs(Mathf.DeltaAngle(arm_l.eulerAngles.z, close_angle_l.z)) >= 0.1f
+			       || Mathf.Abs(Mathf.DeltaAngle(arm_r.eulerAngles.z, close_angle_r.z)) >= 0.1f){
 				arm_l.Rotate(0f, 0f, 1f);
 				arm_r.Rotate(0f, 0f, 1f);
+				yield return null;
 			}
+
+			state = next_state;
+			isClosing = false;
 		}
+
+		//		public void CloseArms(State next_state){
+		//			if (Mathf.Abs(Mathf.DeltaAngle(arm_l.eulerAngles.z, close_angle_l.z)) < 0.1f
+		//			    && Mathf.Abs(Mathf.DeltaAngle(arm_r.eulerAngles.z, close_angle_r.z)) < 0.1f){
+		//			} else{
+		//
+		//			}
+		//		}
+
+
 
 		public void Rise(){
 			if (transform.position.y >= default_position.y){
@@ -76,98 +106,101 @@ namespace Crane{
 			}
 		}
 
-		public void ReturnToBase(){
-			if (transform.position.x - default_position.x > 0.01){
-				transform.position = new Vector3(transform.position.x - 0.01f, transform.position.y, transform.position.z);
-			} else if (transform.position.x - default_position.x < -0.01){
-				transform.position = new Vector3(transform.position.x + 0.01f, transform.position.y, transform.position.z);
-			} else{
-				state = State.Ready;
+		public IEnumerator OpenArms(State next_state){
+			if (isOpening){
+				yield break;
 			}
-		}
+			isOpening = true;
 
-		public void OpenArms(State next_state){
-			if (Mathf.DeltaAngle(arm_l.eulerAngles.z, open_angle_l.z) < 0.1f && Mathf.DeltaAngle(arm_r.eulerAngles.z,
-			                                                                                     open_angle_r.z) < 0.1f){
-				reachedObj = null;
-				state = next_state;
-			} else{
+			while (Mathf.DeltaAngle(arm_l.eulerAngles.z, open_angle_l.z) >= 0.1f
+			       && Mathf.DeltaAngle(arm_r.eulerAngles.z, open_angle_r.z) >= 0.1f){
 				arm_l.Rotate(0f, 0f, -1f);
 				arm_r.Rotate(0f, 0f, -1f);
-			}
-		}
-
-		public IEnumerator MoveLeft(){
-			if (state != State.Ready){
-				yield break;
-			}
-			while (true){
-				transform.position = new Vector3(transform.position.x - 0.01f, transform.position.y, transform.position.z);
 				yield return null;
 			}
+			reachedObj = null;
+			state = next_state;
+			isOpening = false;
 		}
 
-		public IEnumerator MoveRight(){
-			if (state != State.Ready){
-				yield break;
-			}
-			while (true){
-				transform.position = new Vector3(transform.position.x + 0.01f, transform.position.y, transform.position.z);
-				yield return null;
-			}
+		public void MoveLeft(){
+			transform.position = new Vector3(transform.position.x - 0.02f, transform.position.y, transform.position.z);
+		}
+
+		public void MoveRight(){
+			transform.position = new Vector3(transform.position.x + 0.02f, transform.position.y, transform.position.z);
 		}
 
 		public void StopMovement(){
 			state = State.Open;
+			remainingTrialCount--;
 		}
 
-		public void MoveCorrect(){
-			if (transform.localPosition.x > correctBox_position.x){
-				transform.position = new Vector3(transform.position.x - 0.01f, transform.position.y, transform.position.z);
-			} else{
-				OpenArms(State.WaitingJudgement);
+		public IEnumerator MoveCorrect(){
+			if (isMoving){
+				yield break;
 			}
+			isMoving = true;
+
+			while (transform.localPosition.x > correctBox_position.x){
+				transform.position = new Vector3(transform.position.x - 0.02f, transform.position.y, transform.position.z);
+				yield return null;
+			}
+			yield return OpenArms(State.WaitingJudgement);
+			isMoving = false;
 		}
 
-		public void MoveIncorrect(){
-			if (transform.localPosition.x < incorrectBox_position.x){
-				transform.position = new Vector3(transform.position.x + 0.01f, transform.position.y, transform.position.z);
-			} else{
-				OpenArms(State.WaitingJudgement);
+		public IEnumerator MoveIncorrect(){
+			if (isMoving){
+				yield break;
 			}
+			isMoving = true;
+
+			while (transform.localPosition.x < incorrectBox_position.x){
+				transform.position = new Vector3(transform.position.x + 0.02f, transform.position.y, transform.position.z);
+				yield return null;
+			}
+			yield return OpenArms(State.WaitingJudgement);
+			isMoving = false;
 		}
 
-		int count = 0;
-
-		public void WaitAnswer(Answer player_answer){
-			if (count == 0){
-				GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Question();
-			} else{
-				if (SceneManager.GetSceneByName("Question").isLoaded == true){
-					GameObject.Find("Button_left").GetComponent<BoxCollider2D>().enabled = true;
-					GameObject.Find("Button_right").GetComponent<BoxCollider2D>().enabled = true;
-					UnityEngine.SceneManagement.SceneManager.UnloadScene("Question");
-				}
-			}
-			if (player_answer == Answer.Correct){
-				MoveCorrect();
-				count++;
-			} else if (player_answer == Answer.Incorrect){
-				MoveIncorrect();
-				count++;
-			}
+		public void WaitAnswer(){
+			StartCoroutine(GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Question());
 		}
 
 		public void WaitJudgement(Answer player_answer){
-			count = 0;
-
 			if (GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Judge(player_answer) == false){
 				Ready();
 			} else{
 				GameObject.Find("/AudioManager").GetComponent<AudioManager>().PlayRespone();
 			}
-
 			state = State.Return;
+		}
+
+		public IEnumerator ReturnToBase(){
+			if (isMoving){
+				yield break;
+			}
+			isMoving = true;
+
+			yield return new WaitForSeconds(0.2f);
+			yield return CloseArms(state);
+
+
+			while (Mathf.Abs(transform.position.x - default_position.x) >= 0.02){
+				if (transform.position.x - default_position.x >= 0){
+					transform.position = new Vector3(transform.position.x - 0.02f, transform.position.y, transform.position.z);
+				} else{
+					transform.position = new Vector3(transform.position.x + 0.02f, transform.position.y, transform.position.z);
+				}
+				yield return null;
+			}
+			if (remainingTrialCount > 0){
+				state = State.Ready;
+			} else{
+				state = State.Finish;
+			}
+			isMoving = false;
 		}
 
 		public void Ready(){

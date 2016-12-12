@@ -4,7 +4,7 @@ using System.Collections;
 namespace Ijin{
 	public class Mobu : AbstractIjin{
 
-		void Start(){
+		void Awake(){
 			Initialize();
 		}
 
