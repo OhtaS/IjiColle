@@ -7,6 +7,7 @@ using Score;
 
 namespace Item{
 	public class ItemManager : MonoBehaviour{
+		public int point;
 		public string name;
 		public Vector3 default_position;
 		public Vector3 default_rotate;
@@ -19,6 +20,7 @@ namespace Item{
 			default_position = transform.position;
 			name = "NONAME";
 			this.tag = "Item";
+			point = 10;
 		}
 
 		public void Respone(){
@@ -31,7 +33,7 @@ namespace Item{
 			spriteRenderer.sprite = SpriteManager.GetSprite(texture);
 			Destroy(this.GetComponent<Rigidbody2D>());
 			Destroy(this.GetComponent<CircleCollider2D>());
-			GameObject.Find("/Canvas/Score").GetComponent<ScoreManager>().AddScore();
+			GameObject.Find("/Canvas/Score").GetComponent<ScoreManager>().AddScore(point);
 		}
 
 		void OnCollisionEnter2D(Collision2D coll){

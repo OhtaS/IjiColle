@@ -22,7 +22,7 @@ namespace Ijin{
 
 		protected virtual void Initialize(){
 			default_position = transform.position;
-			point = 30;
+			point = 100;
 			name = "NONAME";
 			question_name = "question";
 			question_answer = Answer.Unanswered;
