@@ -36,16 +36,16 @@ namespace Item{
 			GameObject.Find("/Canvas/Score").GetComponent<ScoreManager>().AddScore(point);
 		}
 
-		void OnCollisionEnter2D(Collision2D coll){
-			if (coll.gameObject.name == "Arm_L" || coll.gameObject.name == "Arm_R"){
-				this.tag = "CatchedItem";
-			}
-		}
+		// void OnCollisionEnter2D(Collision2D coll){
+		// 	if (coll.gameObject.name == "Arm_L" || coll.gameObject.name == "Arm_R"){
+		// 		this.tag = "CatchedItem";
+		// 	}
+		// }
 
-		void OnCollisionExit2D(Collision2D coll){
-			if (coll.gameObject.name == "Arm_L" || coll.gameObject.name == "Arm_R"){
-				this.tag = "Item";
-			}
-		}
+		// void OnCollisionExit2D(Collision2D coll){
+		// 	if (coll.gameObject.name == "Arm_L" || coll.gameObject.name == "Arm_R"){
+		// 		this.tag = "Item";
+		// 	}
+		// }
 	}
 }

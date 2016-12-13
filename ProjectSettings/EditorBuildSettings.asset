@@ -16,7 +16,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scene/SelectStand.unity
   - enabled: 1
-    path: Assets/Scene/MultipleChoice2.unity
+    path: Assets/Scene/Stand/Adutimomoyama.unity
   - enabled: 1
     path: Assets/Scene/Dialog/Failure.unity
   - enabled: 1
@@ -28,4 +28,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scene/Continue.unity
   - enabled: 1
-    path: Assets/Scene/Edo.unity
+    path: Assets/Scene/Stand/Edo.unity
+  - enabled: 1
+    path: Assets/Scene/MultipleChoiceCrane.unity

@@ -18,10 +18,14 @@ namespace Common{
 				yield break;
 			}
 			isLoading = true;
-			Scene currentScene = SceneManager.GetActiveScene();
+			// Scene currentScene = SceneManager.GetActiveScene();
 			yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 			isLoading = false;
-			SceneManager.UnloadScene(currentScene);
+			while(SceneManager.sceneCount != 1){
+				Debug.Log(SceneManager.sceneCount);
+				Scene currentScene = SceneManager.GetActiveScene();
+				SceneManager.UnloadScene(currentScene);
+			}
 		}
 
 		public static IEnumerator LoadStandScene(string standName){
@@ -36,6 +40,7 @@ namespace Common{
 			isLoading = true;
 			Scene currentScene = SceneManager.GetActiveScene();
 			yield return SceneManager.LoadSceneAsync(standName, LoadSceneMode.Additive);
+			yield return SceneManager.LoadSceneAsync("MultipleChoiceCrane", LoadSceneMode.Additive);
 			isLoading = false;
 			SceneManager.UnloadScene(currentScene);
 		}
@@ -49,7 +54,7 @@ namespace Common{
 			yield return SceneManager.LoadSceneAsync("Success", LoadSceneMode.Additive);
 			yield return new WaitForSecondsRealtime(1.0f);
 			isLoading = false;
-			SceneManager.UnloadScene(SceneManager.GetSceneAt(1));
+			SceneManager.UnloadScene("Success");
 		}
 
 		public static IEnumerator LoadFailureScene(){
@@ -61,7 +66,7 @@ namespace Common{
 			yield return SceneManager.LoadSceneAsync("Failure", LoadSceneMode.Additive);
 			yield return new WaitForSecondsRealtime(1.0f);
 			isLoading = false;
-			SceneManager.UnloadScene(SceneManager.GetSceneAt(1));
+			SceneManager.UnloadScene("Failure");
 		}
 
 		public static IEnumerator LoadStageSuccessScene(){
@@ -69,13 +74,17 @@ namespace Common{
 				yield break;
 			}
 			isLoading = true;
-			Scene currentScene = SceneManager.GetActiveScene();
+			// Scene currentScene = SceneManager.GetActiveScene();
 			yield return SceneManager.LoadSceneAsync("StageSuccess", LoadSceneMode.Additive);
 			yield return new WaitForSecondsRealtime(3.0f);
 			yield return SceneManager.LoadSceneAsync("Continue", LoadSceneMode.Additive);
 			isLoading = false;
 			SceneManager.UnloadScene("StageSuccess");
-			SceneManager.UnloadScene(currentScene);
+			while(SceneManager.sceneCount != 1){
+				Debug.Log(SceneManager.sceneCount);
+				Scene currentScene = SceneManager.GetActiveScene();
+				SceneManager.UnloadScene(currentScene);
+			}
 		}
 
 		public static IEnumerator LoadStageFailureScene(){
@@ -83,13 +92,17 @@ namespace Common{
 				yield break;
 			}
 			isLoading = true;
-			Scene currentScene = SceneManager.GetActiveScene();
+			// Scene currentScene = SceneManager.GetActiveScene();
 			yield return SceneManager.LoadSceneAsync("StageFailure", LoadSceneMode.Additive);
 			yield return new WaitForSecondsRealtime(3.0f);
 			yield return SceneManager.LoadSceneAsync("Continue", LoadSceneMode.Additive);
 			isLoading = false;
 			SceneManager.UnloadScene("StageFailure");
-			SceneManager.UnloadScene(currentScene);
+			while(SceneManager.sceneCount != 1){
+				Debug.Log(SceneManager.sceneCount);
+				Scene currentScene = SceneManager.GetActiveScene();
+				SceneManager.UnloadScene(currentScene);
+			}
 		}
 	}
 }
