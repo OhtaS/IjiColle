@@ -2,15 +2,15 @@
 using System.Collections;
 
 namespace Ijin{
-	public class Mobu : AbstractIjin{
+	public class Ieyasu : AbstractIjin{
 		void Awake(){
 			Initialize();
 		}
 
 		protected override void Initialize(){
 			base.Initialize();
-			name = "Mobu";
-			question_name = "question_mobu01";
+			name = "Ieyasu";
+			question_name = "question_ieyasu01";
 			question_answer = Answer.Correct;
 		}
 
