@@ -42,16 +42,16 @@ namespace Ijin{
 //			GameObject.Find("/AudioManager").GetComponent<AudioManager>().PlayRespone();
 		}
 
-		void OnCollisionEnter2D(Collision2D coll){
-			if (coll.gameObject.name == "Arm_L" || coll.gameObject.name == "Arm_R"){
-				GameObject.Find("Crane").GetComponent<IIjinListener>().CheckTo(this);
-			}
-		}
+		// void OnCollisionEnter2D(Collision2D coll){
+		// 	if (coll.gameObject.name == "Arm_L" || coll.gameObject.name == "Arm_R"){
+		// 		GameObject.Find("Crane").GetComponent<IIjinListener>().CheckTo(this);
+		// 	}
+		// }
 
-		void OnCollisionExit2D(Collision2D coll){
-			if (coll.gameObject.name == "Arm_L" || coll.gameObject.name == "Arm_R"){
-				GameObject.Find("Crane").GetComponent<IIjinListener>().CheckTo(null);
-			}
-		}
+		// void OnCollisionExit2D(Collision2D coll){
+		// 	if (coll.gameObject.name == "Arm_L" || coll.gameObject.name == "Arm_R"){
+		// 		GameObject.Find("Crane").GetComponent<IIjinListener>().CheckTo(null);
+		// 	}
+		// }
 	}
 }

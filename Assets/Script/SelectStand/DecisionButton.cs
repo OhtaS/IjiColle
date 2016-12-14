@@ -3,13 +3,13 @@ using System.Collections;
 
 namespace SelectStand{
 	public class DecisionButton : AbstractButton{
-		public string stand = "MultipleChoice2";
+		public string stand = "Adutimomoyama";
 
 		protected override void ActionByPushed(){
 			if (gameObject.name == "SelectEdoButton"){
 				stand = "Edo";
 			}else if (gameObject.name == "SelectAdutimomoyamaButton"){
-				stand = "MultipleChoice2";
+				stand = "Adutimomoyama";
 			}else if (gameObject.name == "Button_replay"){
 				stand = "Replay"; 
 			}
