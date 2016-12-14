@@ -24,7 +24,7 @@ public class Husuma : MonoBehaviour {
 		}
 	}
 
-	IEnumerator OpenHusuma(){
+	public IEnumerator OpenHusuma(){
 		if (isMoving){
 			yield break;
 		}
@@ -38,7 +38,7 @@ public class Husuma : MonoBehaviour {
 		isMoving = false;
 	}
 
-	void CloseHusuma(){
+	public void CloseHusuma(){
 		husuma_L.transform.position = default_position_L;
 		husuma_R.transform.position = default_position_R;
 	}

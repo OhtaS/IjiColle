@@ -36,6 +36,7 @@ namespace Crane{
 		bool isMoving;
 		bool isOpening;
 		bool isClosing;
+		bool isAnsweredCorrect;		
 		public int remainingTrialCount;
 		public State state;
 		public bool isCatched;
@@ -47,6 +48,7 @@ namespace Crane{
 			isOpening = false;
 			isClosing = false;
 			isMoving = false;
+			isAnsweredCorrect = true;
 			default_position = transform.position;
 			arm_l = transform.GetChild(0);
 			arm_r = transform.GetChild(1);
@@ -146,6 +148,8 @@ namespace Crane{
 				transform.position = new Vector3(transform.position.x - 0.02f, transform.position.y, transform.position.z);
 				yield return null;
 			}
+
+			yield return new WaitForSeconds(1.0f);
 			yield return OpenArms(State.WaitingJudgement);
 			isMoving = false;
 		}
@@ -160,6 +164,8 @@ namespace Crane{
 				transform.position = new Vector3(transform.position.x + 0.02f, transform.position.y, transform.position.z);
 				yield return null;
 			}
+
+			yield return new WaitForSeconds(1.0f);
 			yield return OpenArms(State.WaitingJudgement);
 			isMoving = false;
 		}
@@ -172,14 +178,23 @@ namespace Crane{
 			if (isMoving){
 				yield break;
 			}
-			isMoving = true;
 
-			yield return new WaitForSeconds(1.0f);
-			if (GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Judge(player_answer) == false){
-				Ready();
+			isMoving = true;
+			yield return new WaitForSeconds(0.5f);
+			yield return GameObject.Find("/Main Camera").GetComponent<CameraManager>().ZoomInHusuma();
+			isAnsweredCorrect = GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Judge(player_answer);
+			yield return new WaitForSeconds(2.0f);
+			StartCoroutine(GameObject.Find("/Object/CraneGameMachine/Husuma").GetComponent<Husuma>().OpenHusuma());
+			yield return new WaitForSeconds(0.7f);
+
+			if (isAnsweredCorrect == true){
+				yield return StartCoroutine(Common.MySceneManager.LoadSuccessScene());
 			} else{
-				GameObject.Find("/AudioManager").GetComponent<AudioManager>().PlayRespone();
+				Ready();
+				yield return StartCoroutine(Common.MySceneManager.LoadFailureScene());
 			}
+			GameObject.Find("/Main Camera").GetComponent<CameraManager>().ZoomOut();
+			GameObject.Find("/Object/CraneGameMachine/Husuma").GetComponent<Husuma>().CloseHusuma();
 			state = State.Return;
 			isMoving = false;
 		}
