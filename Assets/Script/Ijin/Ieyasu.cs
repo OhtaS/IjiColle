@@ -11,7 +11,7 @@ namespace Ijin{
 			base.Initialize();
 			name = "Ieyasu";
 			question_name = "question_ieyasu01";
-			question_answer = Answer.Correct;
+			question_answer = Answer.Incorrect;
 		}
 
 		void Update(){	

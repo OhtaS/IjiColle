@@ -168,13 +168,20 @@ namespace Crane{
 			StartCoroutine(GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Question());
 		}
 
-		public void WaitJudgement(Answer player_answer){
+		public IEnumerator WaitJudgement(Answer player_answer){
+			if (isMoving){
+				yield break;
+			}
+			isMoving = true;
+
+			yield return new WaitForSeconds(1.0f);
 			if (GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Judge(player_answer) == false){
 				Ready();
 			} else{
 				GameObject.Find("/AudioManager").GetComponent<AudioManager>().PlayRespone();
 			}
 			state = State.Return;
+			isMoving = false;
 		}
 
 		public IEnumerator ReturnToBase(){
