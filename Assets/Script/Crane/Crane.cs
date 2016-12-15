@@ -24,6 +24,7 @@ namespace Crane{
 	;
 
 	public class Crane : MonoBehaviour{
+		Ochimusha ochimusha;
 		Transform arm_l;
 		Transform arm_r;
 		Vector3 open_angle_l;
@@ -43,6 +44,7 @@ namespace Crane{
 		public Collider2D reachedObj;
 
 		void Start(){
+			ochimusha = GameObject.Find("Ochimusha").GetComponent<Ochimusha>();
 			state = State.Ready;
 			isCatched = false;
 			isOpening = false;
@@ -56,8 +58,8 @@ namespace Crane{
 			open_angle_r = new Vector3(arm_r.eulerAngles.x, arm_r.eulerAngles.y, arm_r.eulerAngles.z + 150);
 			close_angle_l = arm_l.eulerAngles;
 			close_angle_r = arm_r.eulerAngles;
-			correctBox_position = GameObject.Find("CorrectBox").transform.localPosition;
-			incorrectBox_position = GameObject.Find("IncorrectBox").transform.localPosition;
+			correctBox_position = GameObject.Find("Box/CorrectBox").transform.localPosition;
+			incorrectBox_position = GameObject.Find("Box/IncorrectBox").transform.localPosition;
 			remainingTrialCount = 3;
 		}
 
@@ -144,12 +146,12 @@ namespace Crane{
 			}
 			isMoving = true;
 
-			while (transform.localPosition.x > correctBox_position.x){
+			while (transform.localPosition.x > correctBox_position.x - 0.5){
 				transform.position = new Vector3(transform.position.x - 0.02f, transform.position.y, transform.position.z);
 				yield return null;
 			}
 
-			yield return new WaitForSeconds(1.0f);
+			yield return new WaitForSeconds(0.5f);
 			yield return OpenArms(State.WaitingJudgement);
 			isMoving = false;
 		}
@@ -160,18 +162,18 @@ namespace Crane{
 			}
 			isMoving = true;
 
-			while (transform.localPosition.x < incorrectBox_position.x){
+			while (transform.localPosition.x < incorrectBox_position.x + 0.5){
 				transform.position = new Vector3(transform.position.x + 0.02f, transform.position.y, transform.position.z);
 				yield return null;
 			}
 
-			yield return new WaitForSeconds(1.0f);
+			yield return new WaitForSeconds(0.5f);
 			yield return OpenArms(State.WaitingJudgement);
 			isMoving = false;
 		}
 
 		public void WaitAnswer(){
-			StartCoroutine(GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Question());
+			StartCoroutine(ochimusha.Question());
 		}
 
 		public IEnumerator WaitJudgement(Answer player_answer){
@@ -179,22 +181,27 @@ namespace Crane{
 				yield break;
 			}
 
+			CameraManager cameraManager = GameObject.Find("/Main Camera").GetComponent<CameraManager>();
+			Husuma husuma = GameObject.Find("/Object/CraneGameMachine/Husuma").GetComponent<Husuma>();
+
 			isMoving = true;
 			yield return new WaitForSeconds(0.5f);
-			yield return GameObject.Find("/Main Camera").GetComponent<CameraManager>().ZoomInHusuma();
-			isAnsweredCorrect = GameObject.Find("Ochimusha").GetComponent<Ochimusha>().Judge(player_answer);
+			yield return cameraManager.ZoomInHusuma();
+			isAnsweredCorrect = ochimusha.Judge(player_answer);
 			yield return new WaitForSeconds(2.0f);
-			StartCoroutine(GameObject.Find("/Object/CraneGameMachine/Husuma").GetComponent<Husuma>().OpenHusuma());
+			StartCoroutine(husuma.OpenHusuma());
 			yield return new WaitForSeconds(0.7f);
 
 			if (isAnsweredCorrect == true){
+				ochimusha.ShowGotIjin();
 				yield return StartCoroutine(Common.MySceneManager.LoadSuccessScene());
+				ochimusha.DestroyGotIjin();
 			} else{
 				Ready();
 				yield return StartCoroutine(Common.MySceneManager.LoadFailureScene());
 			}
-			GameObject.Find("/Main Camera").GetComponent<CameraManager>().ZoomOut();
-			GameObject.Find("/Object/CraneGameMachine/Husuma").GetComponent<Husuma>().CloseHusuma();
+			cameraManager.ZoomOut();
+			husuma.CloseHusuma();
 			state = State.Return;
 			isMoving = false;
 		}
@@ -226,7 +233,7 @@ namespace Crane{
 		}
 
 		public void Ready(){
-			GameObject.Find("Ochimusha").GetComponent<Ochimusha>().ResponeIjin();
+			ochimusha.ResponeIjin();
 		}
 	}
 }

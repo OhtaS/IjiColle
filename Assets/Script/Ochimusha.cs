@@ -34,11 +34,25 @@ namespace Navigator{
 		public bool Judge(Answer player_answer){
 			isQuestioning = false;
 			if (questionedIjin.question_answer == player_answer){
-				questionedIjin.ConvertToPoint();
+				MoveIjinInHusuma();
 				return true;
 			} else{
 				return false;
 			}
+		}
+
+		public void MoveIjinInHusuma(){
+			questionedIjin.transform.localPosition = new Vector3(0.0f, -25f, -3.5f);
+        	questionedIjin.transform.eulerAngles = new Vector3(0, 0, 0);
+		}
+
+		public void ShowGotIjin(){
+			questionedIjin.ConvertToPoint();
+			questionedIjin.transform.localPosition = new Vector3(0.0f, -25f, -6.0f);
+		}
+
+		public void DestroyGotIjin(){
+			Destroy(questionedIjin.gameObject);
 		}
 
 		public void ResponeIjin(){

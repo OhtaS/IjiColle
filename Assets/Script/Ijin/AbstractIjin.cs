@@ -30,8 +30,6 @@ namespace Ijin{
 
 		public void ConvertToPoint(){
 			GameObject.Find("/Canvas/Score").GetComponent<Score.ScoreManager>().AddScore(point);
-			transform.localPosition = new Vector3(0.0f, -9.0f, -0.5f);
-        	transform.eulerAngles = new Vector3(0, 0, 0);
 		}
 
 		public virtual void Respone(){
