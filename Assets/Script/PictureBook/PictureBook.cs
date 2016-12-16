@@ -8,7 +8,7 @@ namespace PictureBook{
 
 		// Use this for initialization
 		void Start(){
-			foreach (string ijinName in GameObject.Find("DataManager").GetComponent<Common.DataManager>().SavedIjinList){
+			foreach (string ijinName in GameObject.Find("DataManager").GetComponent<Common.SaveDataManager>().SavedIjinList){
 				Debug.Log(ijinName.ToLower());
 				GameObject.Find("Ijins" + ijinName).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(imagePath + ijinName.ToLower());
 			}

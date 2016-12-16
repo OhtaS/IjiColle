@@ -5,14 +5,24 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Common{
-	public class DataManager : MonoBehaviour{
+	public class SaveDataManager : MonoBehaviour{
+		static bool isCreated = false;
+
 		const string jsonSavePath = "Assets/Resources/Save/SavedCharacterList.json";
 
 		private SerializableSaveData saveData;
 
+		void Awake(){
+			if (!isCreated){
+				DontDestroyOnLoad(this.gameObject);
+				isCreated = true;
+			} else{
+				Destroy(this.gameObject);
+			}
+		}
+
 		void Start(){
 			saveData = LoadData();
-			DontDestroyOnLoad(gameObject);
 		}
 
 		public void SaveData(){
@@ -47,6 +57,16 @@ namespace Common{
 			if (saveData.ijinList.Exists(x => x.Equals(name)) == false){
 				saveData.ijinList.Add(name);
 			}
+		}
+
+		public void InitializeSaveData(){
+			saveData = new SerializableSaveData();
+			SaveData();
+		}
+
+		public void InitializeIjinList(){
+			saveData.ijinList = new List<string>();
+			SaveData();
 		}
 
 		public List<string> SavedIjinList{

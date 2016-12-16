@@ -71,9 +71,9 @@ namespace Navigator{
 
 		public void ActionOfPlayerClear(){
 			foreach (string correctIjin in correctIjinList){
-				GameObject.Find("DataManager").GetComponent<Common.DataManager>().AddIjin(correctIjin);
+				GameObject.Find("DataManager").GetComponent<Common.SaveDataManager>().AddIjin(correctIjin);
 			}
-			GameObject.Find("DataManager").GetComponent<Common.DataManager>().SaveData();
+			GameObject.Find("DataManager").GetComponent<Common.SaveDataManager>().SaveData();
 		}
 	}
 }
