@@ -7,10 +7,9 @@ namespace Crane{
 		// Use this for initialization
 		void Start(){
 			int numberOfCorrect = 0;
-			foreach (string ijinName in GameObject.Find("Ochimusha").GetComponent<Navigator.Ochimusha>().correctIjinList){
+			for (int i = 0; i < GameObject.Find("Ochimusha").GetComponent<Navigator.Ochimusha>().correctIjinList.Count; i++){
+				string ijinName = GameObject.Find("Ochimusha").GetComponent<Navigator.Ochimusha>().correctIjinList[i];
 				transform.GetChild(numberOfCorrect).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(imagePath + ijinName.ToLower());
-				Debug.Log(transform.GetChild(numberOfCorrect).name);
-				numberOfCorrect++;
 			}
 		}
 	

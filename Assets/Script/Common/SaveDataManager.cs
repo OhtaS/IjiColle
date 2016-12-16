@@ -8,7 +8,7 @@ namespace Common{
 	public class SaveDataManager : MonoBehaviour{
 		static bool isCreated = false;
 
-		const string jsonSavePath = "Assets/Resources/Save/SavedCharacterList.json";
+		string jsonSavePath = "Assets/Resources/Save/SavedCharacterList.json";
 
 		private SerializableSaveData saveData;
 
@@ -22,34 +22,47 @@ namespace Common{
 		}
 
 		void Start(){
+			#if UNITY_ANDROID && !UNITY_EDITOR
+			jsonSavePath = Application.persistentDataPath + "/SavedCharacterList.json";
+			#endif
 			saveData = LoadData();
 		}
 
 		public void SaveData(){
 			#if UNITY_IPHONE
 				Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
-			#endif
+			#elif UNITY_ANDROID && !UNITY_EDITOR
 			string json = JsonUtility.ToJson(saveData);
-			Debug.Log(json);
+			if (File.Exists(jsonSavePath) == false){
+			File.Create(jsonSavePath);
+			}
+			File.WriteAllText(jsonSavePath, json);
+			#else
+			string json = JsonUtility.ToJson(saveData);
 			BinaryFormatter bf = new BinaryFormatter();
 			FileStream file = File.Create(jsonSavePath);
 			bf.Serialize(file, json);
 			file.Close();
+			#endif
 		}
 
 		public SerializableSaveData LoadData(){
-			#if UNITY_IPHONE
-				Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
-			#endif
-			if (System.IO.File.Exists(jsonSavePath) == false){
+			if (File.Exists(jsonSavePath) == false){
 				Debug.Log("file not found");
 				return new Common.SerializableSaveData();
 			}
+			#if UNITY_IPHONE
+				Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
+			#elif UNITY_ANDROID && !UNITY_EDITOR
+			string json = File.ReadAllText(jsonSavePath);
+			SerializableSaveData loadData = JsonUtility.FromJson<SerializableSaveData>(json);
+			#else
 			BinaryFormatter bf = new BinaryFormatter(); 
 			FileStream file = File.Open(jsonSavePath, FileMode.Open); 
 			string json = (string)bf.Deserialize(file);
 			file.Close();
 			SerializableSaveData loadData = JsonUtility.FromJson<SerializableSaveData>(json);
+			#endif
 			return loadData;
 		}
 
