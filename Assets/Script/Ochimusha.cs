@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 using Ijin;
 
 namespace Navigator{
@@ -8,10 +9,12 @@ namespace Navigator{
 		public AbstractIjin catchedIjin;
 		AbstractIjin questionedIjin;
 		bool isQuestioning;
+		List<string> correctIjinList;
 
 		void Start(){
 			isQuestioning = false;
 			catchedIjin = null;
+			correctIjinList = new List<string>();
 		}
 
 		void Update(){
@@ -34,11 +37,17 @@ namespace Navigator{
 		public bool Judge(Answer player_answer){
 			isQuestioning = false;
 			if (questionedIjin.question_answer == player_answer){
-				GameObject.Find("DataManager").GetComponent<Common.DataManager>().AddIjin(questionedIjin.name);
+				AddIjin(questionedIjin.name);
 				MoveIjinInHusuma();
 				return true;
 			} else{
 				return false;
+			}
+		}
+
+		public void AddIjin(string ijinName){
+			if (correctIjinList.Exists(x => x.Equals(name)) == false){
+				correctIjinList.Add(ijinName);
 			}
 		}
 
@@ -58,6 +67,13 @@ namespace Navigator{
 
 		public void ResponeIjin(){
 			questionedIjin.Respone();
+		}
+
+		public void ActionOfPlayerClear(){
+			foreach (string correctIjin in correctIjinList){
+				GameObject.Find("DataManager").GetComponent<Common.DataManager>().AddIjin(correctIjin);
+			}
+			GameObject.Find("DataManager").GetComponent<Common.DataManager>().SaveData();
 		}
 	}
 }

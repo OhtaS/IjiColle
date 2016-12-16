@@ -8,7 +8,7 @@ namespace Common{
 	public class DataManager : MonoBehaviour{
 		const string jsonSavePath = "Assets/Resources/Save/SavedCharacterList.json";
 
-		SerializableSaveData saveData;
+		private SerializableSaveData saveData;
 
 		void Start(){
 			saveData = LoadData();
@@ -38,7 +38,6 @@ namespace Common{
 			BinaryFormatter bf = new BinaryFormatter(); 
 			FileStream file = File.Open(jsonSavePath, FileMode.Open); 
 			string json = (string)bf.Deserialize(file);
-			Debug.Log(json);
 			file.Close();
 			SerializableSaveData loadData = JsonUtility.FromJson<SerializableSaveData>(json);
 			return loadData;
@@ -48,6 +47,10 @@ namespace Common{
 			if (saveData.ijinList.Exists(x => x.Equals(name)) == false){
 				saveData.ijinList.Add(name);
 			}
+		}
+
+		public List<string> SavedIjinList{
+			get{ return saveData.ijinList; }
 		}
 	}
 }
