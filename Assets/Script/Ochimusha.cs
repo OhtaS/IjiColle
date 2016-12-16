@@ -9,7 +9,7 @@ namespace Navigator{
 		public AbstractIjin catchedIjin;
 		AbstractIjin questionedIjin;
 		bool isQuestioning;
-		List<string> correctIjinList;
+		public List<string> correctIjinList;
 
 		void Start(){
 			isQuestioning = false;
