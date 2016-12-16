@@ -34,6 +34,7 @@ namespace Navigator{
 		public bool Judge(Answer player_answer){
 			isQuestioning = false;
 			if (questionedIjin.question_answer == player_answer){
+				GameObject.Find("DataManager").GetComponent<Common.DataManager>().AddIjin(questionedIjin.name);
 				MoveIjinInHusuma();
 				return true;
 			} else{
@@ -43,7 +44,7 @@ namespace Navigator{
 
 		public void MoveIjinInHusuma(){
 			questionedIjin.transform.localPosition = new Vector3(0.0f, -25f, -3.5f);
-        	questionedIjin.transform.eulerAngles = new Vector3(0, 0, 0);
+			questionedIjin.transform.eulerAngles = new Vector3(0, 0, 0);
 		}
 
 		public void ShowGotIjin(){

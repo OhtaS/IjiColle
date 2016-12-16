@@ -121,6 +121,7 @@ namespace Crane{
 				case  State.Finish:
 					Debug.Log("Finish");
 					if (GameObject.Find("/Canvas/Score").GetComponent<Score.ScoreManager>().score >= 180){
+						GameObject.Find("DataManager").GetComponent<Common.DataManager>().SaveData();
 						StartCoroutine(Common.MySceneManager.LoadStageSuccessScene());
 					} else{
 						StartCoroutine(Common.MySceneManager.LoadStageFailureScene());
