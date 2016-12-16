@@ -29,15 +29,10 @@ namespace Ijin{
 		}
 
 		public void ConvertToPoint(){
-//			StartCoroutine(Common.MySceneManager.LoadSuccessScene());
-			Destroy(this.GetComponent<Rigidbody2D>());
-//			Destroy(this.GetComponent<CircleCollider2D>());
 			GameObject.Find("/Canvas/Score").GetComponent<Score.ScoreManager>().AddScore(point);
-			DestroyObject(gameObject);
 		}
 
 		public virtual void Respone(){
-			StartCoroutine(Common.MySceneManager.LoadFailureScene());
 			transform.position = default_position;
 //			GameObject.Find("/AudioManager").GetComponent<AudioManager>().PlayRespone();
 		}

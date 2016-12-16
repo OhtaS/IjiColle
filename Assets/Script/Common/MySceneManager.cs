@@ -22,7 +22,6 @@ namespace Common{
 			yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 			isLoading = false;
 			while(SceneManager.sceneCount != 1){
-				Debug.Log(SceneManager.sceneCount);
 				Scene currentScene = SceneManager.GetActiveScene();
 				SceneManager.UnloadScene(currentScene);
 			}
@@ -52,7 +51,7 @@ namespace Common{
 			isLoading = true;
 			Scene currentScene = SceneManager.GetActiveScene();
 			yield return SceneManager.LoadSceneAsync("Success", LoadSceneMode.Additive);
-			yield return new WaitForSecondsRealtime(1.0f);
+			yield return new WaitForSecondsRealtime(3.0f);
 			isLoading = false;
 			SceneManager.UnloadScene("Success");
 		}
@@ -64,7 +63,7 @@ namespace Common{
 			isLoading = true;
 			Scene currentScene = SceneManager.GetActiveScene();
 			yield return SceneManager.LoadSceneAsync("Failure", LoadSceneMode.Additive);
-			yield return new WaitForSecondsRealtime(1.0f);
+			yield return new WaitForSecondsRealtime(3.0f);
 			isLoading = false;
 			SceneManager.UnloadScene("Failure");
 		}

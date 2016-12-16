@@ -21,7 +21,6 @@ namespace Crane{
 			GameObject.Find("/Canvas/TrialCount").GetComponent<UnityEngine.UI.Text>().text = crane.remainingTrialCount.ToString();
 			switch(crane.state){
 				case State.Ready:
-					objectDestroyer.ObstacleDestroy();
 					player_answer = Ijin.Answer.Unanswered;
 					if (GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled == false
 					    || GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled == false){
@@ -111,7 +110,7 @@ namespace Crane{
 						GameObject.Find("/Object/CraneGameMachine/Buttons/LeftButton").GetComponent<BoxCollider2D>().enabled = false;
 						GameObject.Find("/Object/CraneGameMachine/Buttons/RightButton").GetComponent<BoxCollider2D>().enabled = false;
 					}
-					crane.WaitJudgement(player_answer);
+					StartCoroutine(crane.WaitJudgement(player_answer));
 				break;
 
 				case State.Return:
