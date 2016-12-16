@@ -20,7 +20,6 @@ public class Scroll : MonoBehaviour{
 	void MoveX(){
 		Vector3 currentScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		Vector3 currentPosition = Camera.main.ScreenToWorldPoint(currentScreenPoint) + this.offset;
-		Debug.Log(Camera.main.ViewportToWorldPoint(Vector3.one).x);
 		if (Camera.main.ViewportToWorldPoint(Vector3.zero).x >= transform.position.x - mapHalfSize.x
 		    || Camera.main.ViewportToWorldPoint(Vector3.one).x <= transform.position.x + mapHalfSize.x){
 			transform.position = new Vector3(currentPosition.x, transform.position.y, transform.position.z);
@@ -39,7 +38,6 @@ public class Scroll : MonoBehaviour{
 	void MoveY(){
 		Vector3 currentScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		Vector3 currentPosition = Camera.main.ScreenToWorldPoint(currentScreenPoint) + this.offset;
-		Debug.Log(Camera.main.ViewportToWorldPoint(Vector3.one).y);
 		if (Camera.main.ViewportToWorldPoint(Vector3.zero).y >= transform.position.y - mapHalfSize.y
 		    || Camera.main.ViewportToWorldPoint(Vector3.one).y <= transform.position.y + mapHalfSize.y){
 			transform.position = new Vector3(transform.position.x, currentPosition.y, transform.position.z);
