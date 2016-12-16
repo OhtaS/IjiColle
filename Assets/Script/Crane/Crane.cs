@@ -37,7 +37,7 @@ namespace Crane{
 		bool isMoving;
 		bool isOpening;
 		bool isClosing;
-		bool isAnsweredCorrect;		
+		bool isAnsweredCorrect;
 		public int remainingTrialCount;
 		public State state;
 		public bool isCatched;
@@ -188,7 +188,7 @@ namespace Crane{
 			yield return new WaitForSeconds(0.5f);
 			yield return cameraManager.ZoomInHusuma();
 			isAnsweredCorrect = ochimusha.Judge(player_answer);
-			yield return new WaitForSeconds(2.0f);
+			yield return new WaitForSeconds(1.0f);
 			StartCoroutine(husuma.OpenHusuma());
 			yield return new WaitForSeconds(0.7f);
 
