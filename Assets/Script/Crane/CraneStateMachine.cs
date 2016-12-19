@@ -14,6 +14,7 @@ namespace Crane{
 			objectDestroyer = gameObject.GetComponent<ObjectDestroyer>();
 			player_answer = Ijin.Answer.Unanswered;
 			StartCoroutine(crane.CloseArms(crane.state));
+			GameObject.Find("AudioManager").GetComponent<Common.AudioManager>().PlayBGM();
 		}
 	
 		// Update is called once per frame
@@ -126,6 +127,7 @@ namespace Crane{
 					} else{
 						StartCoroutine(Common.MySceneManager.LoadStageFailureScene());
 					}
+					GameObject.Find("AudioManager").GetComponent<Common.AudioManager>().StopBGM();
 					crane.state = State.Ready;
 				break;
 			}

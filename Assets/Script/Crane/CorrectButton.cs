@@ -9,6 +9,7 @@ namespace Crane{
 
 		protected override void Initialize(){
 			base.Initialize();
+			audioSourceName = "button_click03";
 		}
 
 		protected override void ActionByPushed(){

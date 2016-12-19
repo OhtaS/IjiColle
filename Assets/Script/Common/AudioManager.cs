@@ -1,25 +1,50 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Common
-{
-	public class AudioManager : MonoBehaviour
-	{
-		AudioSource sound01;
-		// Use this for initialization
-		void Start ()
-		{
-			sound01 = GetComponent<AudioSource>();
+namespace Common{
+	public class AudioManager : MonoBehaviour{
+		static bool isCreated = false;
+
+		AudioSource sound;
+		AudioSource bgm;
+
+		void Awake(){
+			if (!isCreated){
+				DontDestroyOnLoad(this.gameObject);
+				isCreated = true;
+			} else{
+				Destroy(this.gameObject);
+			}
+		}
+
+		void Start(){
+			
+			sound = GetComponents<AudioSource>()[0];
+			bgm = GetComponents<AudioSource>()[1];
 		}
 	
 		// Update is called once per frame
-		void Update ()
-		{
+		void Update(){
 			
 		}
 
 		public void PlayRespone(){
-			sound01.PlayOneShot(sound01.clip);
+			sound.clip = Resources.Load<AudioClip>("Audio/button02");
+			sound.PlayOneShot(sound.clip);
+		}
+
+		public void PlayOnShot(string fileName){
+			sound.clip = Resources.Load<AudioClip>("Audio/" + fileName);
+			sound.PlayOneShot(sound.clip);
+		}
+
+		public void StopBGM(){
+			bgm.Stop();
+		}
+
+		public void PlayBGM(){
+			bgm.loop = true;
+			bgm.Play();
 		}
 	}
 }
